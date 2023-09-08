@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OpenStreetMap Heatmap</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.7.1/leaflet.css" />
+  
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		#map {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+      height: 500px;
+      width: 800px;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+	<script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+	<script>
+		
+/*
+  AC: [ -8.77, -70.55], AL: [ -9.71, -35.73], AM: [ -3.07, -61.66], AP: [  1.41, -51.77], BA: [-12.96, -38.51], CE: [ -3.71, -38.54], DF: [-15.83, -47.86], ES: [-19.19, -40.34], GO: [-16.64, -49.31], MA: [ -2.55, -44.30], MT: [-12.64, -55.42], MS: [-20.51, -54.54], MG: [-18.10, -44.38], PA: [ -5.53, -52.29], PB: [ -7.06, -35.55], PR: [-24.89, -51.55], PE: [ -8.28, -35.07], PI: [ -8.28, -43.68], RJ: [-22.84, -43.15], RN: [ -5.22, -36.52], RO: [-11.22, -62.80], RS: [-30.01, -51.22], RR: [  1.89, -61.22], SC: [-27.33, -49.44], SE: [-10.90, -37.07], SP: [-23.55, -46.64], TO: [-10.25, -48.25]
+*/
+var data = [[ -9.71, -35.73],
+[ -3.07, -61.66],
+[-12.96, -38.51],
+ [-15.83, -47.86],
+ [-24.89, -51.55] ]   
+
+/*var data = [
+    {lat: -10, lng: -55},
+    {lat: 51.5, lng: -0.10},
+    {lat: 51.51, lng: -0.10},
+    {lat: 51.51, lng: -0.09},
+    {lat: 51.5, lng: -0.09}];*/
+
+
+    var polygonCoords = [    [23, -0.09],
+    [24.75, -0.06],
+    [24.80, -0.03],
+    [24.89, -0.065]
+];
+//gradient: { 0.4: 'blue', 0.6: 'white', 0.8: 'red' },
+var mask = L.polygon(polygonCoords, {
+    color: '#000',
+    weight: 1,
+    fillOpacity: 0.5
+});
+var map = L.map('map').setView([-10, -55], 4);
+
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; OpenStreetMap contributors'
+		}).addTo(map);
+    /*var data = [
+    [51.505, -0.09, 0.5],
+    [51.5, -0.09, 0.2],
+    [51.5, -0.09, 0.8],
+    // more data points...
+];*/
+
+
+
+		/*var heatLayer = L.heatLayer([
+			[51.5, -0.09, 0.5],
+			[51.5, -0.08, 1],
+			[51.5, -0.07, 2],
+			[51.5, -0.06, 3],
+			[51.5, -0.05, 4]
+		], {radius: 125}).addTo(map);*/
+
+
+var heatLayer = L.heatLayer(data, {
+    radius: 100,
+    blur: 10,
+    maxZoom: 10,
+    max: 1.0,
+    zIndex: 1000,
+   
+     // set the mask option to the polygon mask
+}).addTo(map);/* gradient: { 0.4: 'blue', 0.6: 'white', 0.8: 'red' },
+    gradient: 'OrRd',
+var heatmapLayer = L.heatLayer(data).addTo(map);
+var heatLayer = L.heatLayer(data, {
+    radius: 20,
+    blur: 10,
+    minOpacity: 0.5,
+    maxZoom: 20,    
+    max: 1.0,
+    scaleRadius: true,
+    gradient: {
+        0.4: 'blue',
+        0.6: 'cyan',
+        0.8: 'lime',
+        1.0: 'yellow'
+    },
+    zIndex: 1000,
+    mask: mask
+}).addTo(map);*/
+	</script>
+</body>
+</html>
